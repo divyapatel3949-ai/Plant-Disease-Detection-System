@@ -12,7 +12,7 @@ The server starts on http://localhost:5000
 import os
 import uuid
 import base64
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, send_from_directory
 from werkzeug.utils import secure_filename
 from predict import load_model, load_class_names, preprocess_image, predict, get_disease_info
 
@@ -71,6 +71,13 @@ def ensure_model_loaded():
     global model, class_names
     if model is None:
         init_model()
+
+
+@app.route('/static/<path:filename>')
+def serve_static(filename):
+    """Serve static files explicitly in serverless environments like Vercel."""
+    static_dir = os.path.join(app.root_path, 'static')
+    return send_from_directory(static_dir, filename)
 
 
 @app.route('/')
