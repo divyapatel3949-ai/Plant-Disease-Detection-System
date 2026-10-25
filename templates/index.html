@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Disease Detection System | AI-Powered Leaf Diagnosis</title>
+  
+  <!-- Google Fonts: Poppins -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Loading Overlay -->
+  <div id="loading-overlay" class="loading-overlay hidden" aria-hidden="true">
+    <div class="loading-card">
+      <div class="spinner"></div>
+      <p class="loading-text">Analyzing your leaf...</p>
+      <span class="loading-subtext">Evaluating visual symptoms and disease patterns</span>
+    </div>
+  </div>
+
+  <!-- 1. Navigation Bar -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="nav-brand">
+        <span class="brand-icon">🌿</span>
+        <span class="brand-name">Plant Disease Detection</span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+
+      <ul class="nav-menu" id="nav-menu">
+        <li class="nav-item"><a href="#hero" class="nav-link active">Home</a></li>
+        <li class="nav-item"><a href="#how-it-works" class="nav-link">How It Works</a></li>
+        <li class="nav-item"><a href="#upload-section" class="nav-link">Detect</a></li>
+        <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 2. Hero Section -->
+  <header class="hero-section" id="hero">
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">🌱 Smart Agricultural AI</div>
+        <h1 class="hero-title">Plant Disease Detection System</h1>
+        <h2 class="hero-subtitle">Detect Plant Leaf Diseases in Seconds</h2>
+        <p class="hero-description">
+          Upload a photo of a plant leaf and our AI-powered system will analyze it to detect potential diseases,
+          providing you with instant results and care recommendations.
+        </p>
+        <div class="hero-actions">
+          <a href="#upload-section" class="btn btn-primary btn-cta">
+            Start Detection <span class="btn-icon">🔬</span>
+          </a>
+          <a href="#how-it-works" class="btn btn-outline">
+            Learn More <span class="btn-icon">↓</span>
+          </a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-blob">
+          <span class="hero-leaf-emoji">🌿</span>
+          <span class="hero-badge-tag tag-1">🔍 98%+ Accuracy</span>
+          <span class="hero-badge-tag tag-2">⚡ Instant Results</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 3. How It Works Section -->
+    <section class="section how-it-works-section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Simple 3-Step Process</span>
+          <h2 class="section-title">How It Works</h2>
+          <p class="section-subtitle">Get professional plant disease diagnosis effortlessly in three quick steps</p>
+        </div>
+
+        <div class="cards-grid">
+          <!-- Card 1 -->
+          <div class="step-card">
+            <div class="step-badge">1</div>
+            <div class="icon-circle">
+              <span class="step-icon">📷</span>
+            </div>
+            <h3 class="card-title">Upload Image</h3>
+            <p class="card-description">
+              Capture or upload a clear, focused photograph of the affected plant leaf in JPEG or PNG format.
+            </p>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="step-card">
+            <div class="step-badge">2</div>
+            <div class="icon-circle">
+              <span class="step-icon">🧠</span>
+            </div>
+            <h3 class="card-title">AI Analysis</h3>
+            <p class="card-description">
+              Our deep learning vision model analyzes leaf morphology, lesion coloration, and pathology indicators.
+            </p>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="step-card">
+            <div class="step-badge">3</div>
+            <div class="icon-circle">
+              <span class="step-icon">✅</span>
+            </div>
+            <h3 class="card-title">Get Results</h3>
+            <p class="card-description">
+              View accurate disease identification, confidence probabilities, and practical prevention advice.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. Upload / Detection Section -->
+    <section class="section upload-section" id="upload-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Disease Scanner</span>
+          <h2 class="section-title">Upload Leaf Image</h2>
+          <p class="section-subtitle">Select or drop a high-resolution image of the plant leaf you want to analyze</p>
+        </div>
+
+        <div class="upload-wrapper">
+          <!-- Drag-and-drop zone -->
+          <div class="drop-zone" id="drop-zone" tabindex="0" role="button" aria-label="Upload leaf image drag and drop area">
+            <input type="file" id="file-input" class="file-input" accept=".jpg,.jpeg,.png" aria-label="Choose image file">
+            
+            <div class="drop-zone-content" id="drop-zone-prompt">
+              <div class="upload-icon-circle">
+                <span class="upload-icon">📤</span>
+              </div>
+              <h3 class="drop-title">Drag &amp; drop your leaf image here</h3>
+              <p class="drop-text">or <span class="browse-link">click to browse</span> from your device</p>
+              <div class="drop-hint">Supports: JPG, JPEG, PNG (Max 10MB)</div>
+            </div>
+
+            <!-- Image preview area (hidden initially) -->
+            <div class="preview-area hidden" id="preview-area">
+              <div class="preview-img-container">
+                <img id="preview-image" src="" alt="Selected leaf preview" class="preview-image">
+                <button type="button" class="preview-remove-btn" id="remove-image-btn" title="Remove selected image">✕</button>
+              </div>
+              <div class="file-meta" id="file-meta">
+                <span class="file-name" id="file-name">filename.jpg</span>
+                <span class="file-size" id="file-size">1.2 MB</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Button -->
+          <div class="upload-actions">
+            <button type="button" id="analyze-btn" class="btn btn-primary btn-analyze" disabled>
+              <span>Analyze Leaf</span>
+              <span class="btn-icon">🔬</span>
+            </button>
+          </div>
+
+          <!-- Sample Leaves Quick-Select -->
+          <div class="sample-leaves-container">
+            <p class="sample-leaves-title">🌿 Don't have a leaf photo? Click a sample to test instantly:</p>
+            <div class="sample-chips">
+              <button type="button" class="sample-chip" data-sample="Tomato___Early_blight_test.jpg" title="Tomato with Early Blight fungal spots">
+                🍅 Tomato Blight
+              </button>
+              <button type="button" class="sample-chip" data-sample="Apple___Apple_scab_test.jpg" title="Apple leaf with scab lesions">
+                🍏 Apple Scab
+              </button>
+              <button type="button" class="sample-chip" data-sample="Corn_(maize)___healthy_test.jpg" title="Vibrant healthy corn leaf">
+                🌽 Healthy Corn
+              </button>
+              <button type="button" class="sample-chip" data-sample="Potato___Late_blight_test.jpg" title="Potato leaf infected with late blight">
+                🥔 Potato Blight
+              </button>
+              <button type="button" class="sample-chip" data-sample="Tomato___healthy_test.jpg" title="Normal healthy tomato leaf">
+                🌿 Healthy Tomato
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. Results Section (hidden initially) -->
+    <section class="section results-section hidden" id="results-section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">Diagnosis Complete</span>
+          <h2 class="section-title">Analysis Results</h2>
+          <p class="section-subtitle">Detailed breakdown of the identified condition and recommended treatment</p>
+        </div>
+
+        <div class="results-grid">
+          <!-- Primary Result Card -->
+          <div class="result-card main-result-card">
+            <div class="result-image-box">
+              <img id="result-image" src="" alt="Analyzed Leaf" class="result-image">
+            </div>
+
+            <div class="result-details">
+              <div class="result-header">
+                <span class="plant-label" id="result-plant-name">Plant: Tomato</span>
+                <span class="status-badge diseased" id="result-status-badge">Diseased</span>
+              </div>
+
+              <h3 class="disease-name" id="result-disease-name">Early Blight</h3>
+
+              <!-- Overall Confidence Bar -->
+              <div class="confidence-container">
+                <div class="confidence-header">
+                  <span class="confidence-title">Diagnosis Confidence</span>
+                  <span class="confidence-percentage" id="result-confidence-percent">0%</span>
+                </div>
+                <div class="confidence-track">
+                  <div class="confidence-fill" id="result-confidence-bar" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Top 3 Predictions -->
+              <div class="top-predictions-wrapper">
+                <h4 class="top-predictions-title">Top Predictions</h4>
+                <div class="top-predictions-list" id="top-predictions-list">
+                  <!-- Injected via JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Disease Info & Prevention Card -->
+          <div class="result-card disease-info-card" id="disease-info-card">
+            <div class="info-card-header">
+              <span class="info-icon">💡</span>
+              <h4>Condition Information</h4>
+            </div>
+            
+            <p class="disease-description" id="disease-description">
+              Description will be loaded here.
+            </p>
+
+            <div class="prevention-container">
+              <h5 class="prevention-title">
+                <span class="shield-icon">🛡️</span> Recommended Care &amp; Prevention
+              </h5>
+              <ul class="prevention-list" id="disease-prevention-list">
+                <!-- Injected via JavaScript -->
+              </ul>
+            </div>
+
+            <!-- Disclaimer -->
+            <div class="disclaimer-box">
+              <span class="disclaimer-icon">⚠️</span>
+              <p class="disclaimer-text">
+                <strong>Note:</strong> This prediction is generated by an AI model and should not be used as a definitive diagnosis. Please consult with an agricultural expert for accurate assessment.
+              </p>
+            </div>
+
+            <!-- Try Another Image Button -->
+            <div class="results-actions">
+              <button type="button" id="try-another-btn" class="btn btn-secondary btn-try-another">
+                <span>Try Another Image</span>
+                <span class="btn-icon">🔄</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. About Section -->
+    <section class="section about-section" id="about">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-tag">About The Project</span>
+          <h2 class="section-title">Empowering Agriculture with AI</h2>
+          <p class="section-subtitle">Bridging machine learning and plant pathology to protect crops worldwide</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card">
+            <div class="about-icon">🔬</div>
+            <h3 class="about-heading">Advanced Computer Vision</h3>
+            <p class="about-text">
+              Utilizing deep Convolutional Neural Networks (CNNs) trained on tens of thousands of real-world leaf samples,
+              the system identifies complex fungal, bacterial, viral, and pest-induced leaf pathologies.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <div class="about-icon">⚡</div>
+            <h3 class="about-heading">Real-Time Evaluation</h3>
+            <p class="about-text">
+              Engineered with a lightweight Flask backend and high-performance inference pipelines, delivering
+              sub-second diagnoses to farmers, agronomists, and home gardeners directly from web browsers.
+            </p>
+          </div>
+
+          <div class="about-card">
+            <div class="about-icon">🌱</div>
+            <h3 class="about-heading">Sustainable Crop Protection</h3>
+            <p class="about-text">
+              Early detection reduces unnecessary pesticide usage, limits disease transmission across crops,
+              and supports eco-friendly, organic cultivation strategies through actionable prevention steps.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 7. Footer -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-brand">
+        <span class="footer-logo">🌿</span>
+        <span class="footer-title">Plant Disease Detection System</span>
+      </div>
+      <p class="footer-tagline">Built with ❤️ and AI for healthier crops and higher yields.</p>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2026 Plant Disease Detection System. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
