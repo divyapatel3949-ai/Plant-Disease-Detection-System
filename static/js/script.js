@@ -217,6 +217,74 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // -------------------------------------------------------
+  // Gemini Vision Key Modal & Storage Handlers
+  // -------------------------------------------------------
+  const geminiKeyBtn = document.getElementById('gemini-key-btn');
+  const geminiModal = document.getElementById('gemini-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const geminiApiKeyInput = document.getElementById('gemini-api-key-input');
+  const saveKeyBtn = document.getElementById('save-key-btn');
+  const clearKeyBtn = document.getElementById('clear-key-btn');
+  const keySavedAlert = document.getElementById('key-saved-alert');
+  const geminiStatusDot = document.getElementById('gemini-status-dot');
+
+  function updateGeminiStatus() {
+    const savedKey = localStorage.getItem('gemini_api_key') || '';
+    if (savedKey) {
+      if (geminiApiKeyInput) geminiApiKeyInput.value = savedKey;
+      if (geminiStatusDot) geminiStatusDot.classList.add('active');
+    } else {
+      fetch('/api/status')
+        .then(r => r.json())
+        .then(st => {
+          if (st.gemini_vision_active && geminiStatusDot) {
+            geminiStatusDot.classList.add('active');
+          }
+        })
+        .catch(() => {});
+    }
+  }
+  updateGeminiStatus();
+
+  if (geminiKeyBtn && geminiModal) {
+    geminiKeyBtn.addEventListener('click', () => {
+      geminiModal.classList.remove('hidden');
+      if (keySavedAlert) keySavedAlert.classList.add('hidden');
+    });
+  }
+
+  if (modalCloseBtn && geminiModal) {
+    modalCloseBtn.addEventListener('click', () => {
+      geminiModal.classList.add('hidden');
+    });
+  }
+
+  if (saveKeyBtn) {
+    saveKeyBtn.addEventListener('click', () => {
+      const keyVal = geminiApiKeyInput ? geminiApiKeyInput.value.trim() : '';
+      if (keyVal) {
+        localStorage.setItem('gemini_api_key', keyVal);
+        if (geminiStatusDot) geminiStatusDot.classList.add('active');
+        if (keySavedAlert) keySavedAlert.classList.remove('hidden');
+        showToast('Gemini API Key saved! Universal leaf detection is active.', 'success');
+        setTimeout(() => geminiModal.classList.add('hidden'), 1200);
+      } else {
+        showToast('Please paste a valid Gemini API key.', 'error');
+      }
+    });
+  }
+
+  if (clearKeyBtn) {
+    clearKeyBtn.addEventListener('click', () => {
+      localStorage.removeItem('gemini_api_key');
+      if (geminiApiKeyInput) geminiApiKeyInput.value = '';
+      if (geminiStatusDot) geminiStatusDot.classList.remove('active');
+      showToast('Gemini API Key removed.', 'warning');
+      geminiModal.classList.add('hidden');
+    });
+  }
+
+  // -------------------------------------------------------
   // 6. Analyze Button → API Call
   // -------------------------------------------------------
 
@@ -234,8 +302,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
+      const headers = {};
+      const storedKey = localStorage.getItem('gemini_api_key');
+      if (storedKey) {
+        headers['X-Gemini-Key'] = storedKey;
+      }
+
       const response = await fetch('/predict', {
         method: 'POST',
+        headers: headers,
         body: formData,
       });
 
@@ -261,22 +336,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------
 
   function displayResults(data) {
-    const { predictions, disease_info, image_url, warning } = data;
+    const { predictions, disease_info, image_url, warning, engine, model_name } = data;
     const top = predictions[0];
+
+    // Engine badge update
+    const resultEngineBadge = document.getElementById('result-engine-badge');
+    if (resultEngineBadge) {
+      if (engine === 'gemini_vision') {
+        resultEngineBadge.textContent = `✨ ${model_name || 'Gemini Vision AI'} (Universal)`;
+        resultEngineBadge.className = 'engine-badge gemini';
+      } else {
+        resultEngineBadge.textContent = '⚡ Local Model (5 Crops)';
+        resultEngineBadge.className = 'engine-badge';
+      }
+    }
 
     // Set image
     resultImage.src = image_url;
     resultImage.alt = `Analyzed leaf: ${top.disease_name}`;
 
-    // Plant name
-    resultPlantName.textContent = `Plant: ${top.plant_name}`;
-
-    // Status badge
-    resultStatusBadge.textContent = top.is_healthy ? 'Healthy' : 'Diseased';
-    resultStatusBadge.className = `status-badge ${top.is_healthy ? 'healthy' : 'diseased'}`;
-
-    // Disease name
-    resultDiseaseName.textContent = top.disease_name;
+    // Plant name and status badge handling
+    if (engine === 'local_cnn' && (data.is_uncertain || conf < 50)) {
+      resultPlantName.textContent = `Plant: Untrained Leaf (e.g. Paddy / Rice / Wheat)`;
+      resultStatusBadge.textContent = 'Uncertain (कम सटीकता)';
+      resultStatusBadge.className = 'status-badge warning';
+      resultDiseaseName.textContent = `Nearest visual match: ${top.plant_name}`;
+    } else {
+      resultPlantName.textContent = `Plant: ${top.plant_name}`;
+      resultStatusBadge.textContent = top.is_healthy ? 'Healthy' : 'Diseased';
+      resultStatusBadge.className = `status-badge ${top.is_healthy ? 'healthy' : 'diseased'}`;
+      resultDiseaseName.textContent = top.disease_name;
+    }
 
     // Confidence bar (animate)
     const conf = top.confidence;
@@ -337,7 +427,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Show warning toast if confidence is low
+    // Show warning alert banner & toast if confidence is low
+    const lowConfAlert = document.getElementById('low-confidence-alert');
+    if (lowConfAlert) {
+      if (warning || conf < 60) {
+        const alertMsg = warning || `Low confidence (${conf.toFixed(1)}%). If this leaf is Paddy (Rice / धान), Wheat, or another unlisted crop, note that the model only knows 5 crops (Apple, Corn, Grape, Potato, Tomato). '${top.plant_name}' was selected only as the closest visual match.`;
+        lowConfAlert.innerHTML = `
+          <span class="alert-icon">⚠️</span>
+          <div>
+            <strong>Notice / ध्यान दें:</strong> ${alertMsg}
+            <div style="margin-top: 0.6rem;">
+              <button type="button" class="btn btn-sm btn-primary" onclick="document.getElementById('gemini-key-btn').click()" style="padding: 0.35rem 0.9rem; font-size: 0.8rem; border-radius: var(--radius-pill); cursor: pointer;">
+                ✨ Connect Free Gemini API Key for Exact Diagnosis
+              </button>
+            </div>
+          </div>
+        `;
+        lowConfAlert.classList.remove('hidden');
+      } else {
+        lowConfAlert.classList.add('hidden');
+      }
+    }
+
     if (warning) {
       showToast(warning, 'warning');
     }

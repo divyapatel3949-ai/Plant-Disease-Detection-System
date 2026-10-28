@@ -787,6 +787,12 @@ img {
   color: #721c24;
 }
 
+.status-badge.warning {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
 .disease-name {
   font-size: 1.6rem;
   font-weight: 700;
@@ -1318,6 +1324,247 @@ img {
   }
 }
 
+/* Supported Crops Strip */
+.supported-crops-box {
+  background: rgba(45, 106, 79, 0.06);
+  border: 1px solid rgba(45, 106, 79, 0.18);
+  border-radius: var(--radius-sm);
+  padding: 0.85rem 1.25rem;
+  margin: 0 auto 1.75rem auto;
+  max-width: 800px;
+  text-align: center;
+}
+.supported-crops-label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  margin-bottom: 0.45rem;
+}
+.supported-crops-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+.supported-crop-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  background: var(--white);
+  border-radius: var(--radius-pill);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-dark);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+.supported-crop-badge.warning-badge {
+  background: #fff3cd;
+  color: #856404;
+  border: 1px dashed #ffeeba;
+  font-weight: 600;
+}
+
+/* Result Low Confidence Alert Banner */
+.low-confidence-alert {
+  background: #fff8e6;
+  border: 1px solid #ffe499;
+  border-left: 5px solid #f4a261;
+  padding: 0.85rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  color: #633c00;
+  line-height: 1.5;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+}
+.low-confidence-alert .alert-icon {
+  font-size: 1.35rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* Gemini Vision Controls & Modal */
+.nav-btn-gemini {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(135deg, #1b4332 0%, #2d6a4f 100%);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.2);
+  padding: 0.4rem 0.85rem;
+  border-radius: var(--radius-pill);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 5px rgba(0,0,0,0.12);
+}
+.nav-btn-gemini:hover {
+  background: linear-gradient(135deg, #2d6a4f 0%, #40916c 100%);
+  transform: translateY(-1px);
+}
+.gemini-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #f4a261;
+  display: inline-block;
+  transition: background 0.3s;
+}
+.gemini-status-dot.active {
+  background: #2ec4b6;
+  box-shadow: 0 0 6px #2ec4b6;
+}
+
+/* Engine Badge in Results */
+.engine-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-pill);
+  background: #e9ecef;
+  color: #495057;
+  letter-spacing: 0.02em;
+}
+.engine-badge.gemini {
+  background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+  color: #1b5e20;
+  border: 1px solid #a5d6a7;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+.modal-card {
+  background: #fff;
+  border-radius: var(--radius);
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  animation: modalIn 0.25s ease-out;
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid #eee;
+  background: #fdfdfd;
+}
+.modal-title-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.modal-icon {
+  font-size: 1.4rem;
+}
+.modal-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-dark);
+}
+.modal-close-btn {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: #888;
+  padding: 0.25rem;
+  line-height: 1;
+}
+.modal-close-btn:hover {
+  color: #333;
+}
+.modal-body {
+  padding: 1.5rem;
+}
+.modal-desc {
+  font-size: 0.9rem;
+  color: #555;
+  line-height: 1.55;
+  margin-bottom: 1.25rem;
+}
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text-dark);
+}
+.form-input {
+  width: 100%;
+  padding: 0.75rem 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: var(--radius-sm);
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: border-color 0.2s;
+}
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.15);
+}
+.form-help {
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 0.4rem;
+}
+.form-help a {
+  color: var(--primary);
+  text-decoration: underline;
+  font-weight: 500;
+}
+.modal-alert {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+  border-radius: var(--radius-sm);
+  padding: 0.75rem;
+  font-size: 0.85rem;
+  margin-top: 1rem;
+}
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #eee;
+  background: #fbfbfb;
+}
+
 </style>
 </head>
 <body>
@@ -1353,6 +1600,11 @@ img {
         <li class="nav-item"><a href="#how-it-works" class="nav-link">How It Works</a></li>
         <li class="nav-item"><a href="#upload-section" class="nav-link">Detect</a></li>
         <li class="nav-item"><a href="#about" class="nav-link">About</a></li>
+        <li class="nav-item">
+          <button type="button" class="nav-btn-gemini" id="gemini-key-btn" title="Configure Google Gemini Vision API for All Plants">
+            ✨ Gemini AI Key <span class="gemini-status-dot" id="gemini-status-dot"></span>
+          </button>
+        </li>
       </ul>
     </div>
   </nav>
@@ -1446,6 +1698,20 @@ img {
           <p class="section-subtitle">Select or drop a high-resolution image of the plant leaf you want to analyze</p>
         </div>
 
+        <!-- Currently Supported Crops Badge Strip -->
+        <div class="supported-crops-box">
+          <div class="supported-crops-label">🌿 Trained Crops in Local AI Model (15 Conditions)</div>
+          <div class="supported-crops-tags">
+            <span class="supported-crop-badge">🌾 Paddy / Rice (धान)</span>
+            <span class="supported-crop-badge">🍏 Apple (सेब)</span>
+            <span class="supported-crop-badge">🌽 Corn / Maize (मक्का)</span>
+            <span class="supported-crop-badge">🍇 Grape (अंगूर)</span>
+            <span class="supported-crop-badge">🥔 Potato (आलू)</span>
+            <span class="supported-crop-badge">🍅 Tomato (टमाटर)</span>
+            <span class="supported-crop-badge warning-badge" title="Connect Gemini AI Key to detect all 10,000+ plant species">✨ All Other Crops via Gemini AI Key</span>
+          </div>
+        </div>
+
         <div class="upload-wrapper">
           <!-- Drag-and-drop zone -->
           <div class="drop-zone" id="drop-zone" tabindex="0" role="button" aria-label="Upload leaf image drag and drop area">
@@ -1485,6 +1751,12 @@ img {
           <div class="sample-leaves-container">
             <p class="sample-leaves-title">🌿 Don't have a leaf photo? Click a sample to test instantly:</p>
             <div class="sample-chips">
+              <button type="button" class="sample-chip" data-sample="Rice___healthy_test.jpg" title="Healthy Paddy (Rice) Leaf">
+                🌾 Healthy Rice (धान)
+              </button>
+              <button type="button" class="sample-chip" data-sample="Rice___Brown_spot_test.jpg" title="Paddy Leaf with Brown Spot disease">
+                🌾 Rice Brown Spot
+              </button>
               <button type="button" class="sample-chip" data-sample="Tomato___Early_blight_test.jpg" title="Tomato with Early Blight fungal spots">
                 🍅 Tomato Blight
               </button>
@@ -1526,9 +1798,13 @@ img {
               <div class="result-header">
                 <span class="plant-label" id="result-plant-name">Plant: Tomato</span>
                 <span class="status-badge diseased" id="result-status-badge">Diseased</span>
+                <span class="engine-badge" id="result-engine-badge">⚡ Local Model</span>
               </div>
 
               <h3 class="disease-name" id="result-disease-name">Early Blight</h3>
+
+              <!-- Low Confidence / Unsupported Leaf Alert Banner -->
+              <div class="low-confidence-alert hidden" id="low-confidence-alert"></div>
 
               <!-- Overall Confidence Bar -->
               <div class="confidence-container">
@@ -1645,6 +1921,39 @@ img {
       </div>
     </div>
   </footer>
+
+  <!-- 8. Gemini Vision API Key Modal -->
+  <div class="modal-overlay hidden" id="gemini-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-icon">✨</span>
+          <h3 class="modal-title">Gemini Vision AI (Universal Detection)</h3>
+        </div>
+        <button type="button" class="modal-close-btn" id="modal-close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">
+          Add your <strong>free Google Gemini API Key</strong> to enable universal recognition for 
+          <strong>Paddy / Rice (धान), Wheat (गेहूँ), Mango, Cotton, Sugarcane</strong> and all plant leaves!
+        </p>
+        <div class="form-group">
+          <label for="gemini-api-key-input" class="form-label">Gemini API Key</label>
+          <input type="password" id="gemini-api-key-input" class="form-input" placeholder="AIzaSy..." autocomplete="off">
+          <div class="form-help">
+            👉 <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">Click here to get a 100% Free Gemini API Key</a> (Takes 30 seconds with Google login)
+          </div>
+        </div>
+        <div class="modal-alert hidden" id="key-saved-alert">
+          ✅ Key saved successfully! Universal leaf detection is active.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="clear-key-btn">Remove Key</button>
+        <button type="button" class="btn btn-primary" id="save-key-btn">Save Key</button>
+      </div>
+    </div>
+  </div>
 
   <!-- JavaScript -->
   <script>
@@ -1867,6 +2176,74 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // -------------------------------------------------------
+  // Gemini Vision Key Modal & Storage Handlers
+  // -------------------------------------------------------
+  const geminiKeyBtn = document.getElementById('gemini-key-btn');
+  const geminiModal = document.getElementById('gemini-modal');
+  const modalCloseBtn = document.getElementById('modal-close-btn');
+  const geminiApiKeyInput = document.getElementById('gemini-api-key-input');
+  const saveKeyBtn = document.getElementById('save-key-btn');
+  const clearKeyBtn = document.getElementById('clear-key-btn');
+  const keySavedAlert = document.getElementById('key-saved-alert');
+  const geminiStatusDot = document.getElementById('gemini-status-dot');
+
+  function updateGeminiStatus() {
+    const savedKey = localStorage.getItem('gemini_api_key') || '';
+    if (savedKey) {
+      if (geminiApiKeyInput) geminiApiKeyInput.value = savedKey;
+      if (geminiStatusDot) geminiStatusDot.classList.add('active');
+    } else {
+      fetch('/api/status')
+        .then(r => r.json())
+        .then(st => {
+          if (st.gemini_vision_active && geminiStatusDot) {
+            geminiStatusDot.classList.add('active');
+          }
+        })
+        .catch(() => {});
+    }
+  }
+  updateGeminiStatus();
+
+  if (geminiKeyBtn && geminiModal) {
+    geminiKeyBtn.addEventListener('click', () => {
+      geminiModal.classList.remove('hidden');
+      if (keySavedAlert) keySavedAlert.classList.add('hidden');
+    });
+  }
+
+  if (modalCloseBtn && geminiModal) {
+    modalCloseBtn.addEventListener('click', () => {
+      geminiModal.classList.add('hidden');
+    });
+  }
+
+  if (saveKeyBtn) {
+    saveKeyBtn.addEventListener('click', () => {
+      const keyVal = geminiApiKeyInput ? geminiApiKeyInput.value.trim() : '';
+      if (keyVal) {
+        localStorage.setItem('gemini_api_key', keyVal);
+        if (geminiStatusDot) geminiStatusDot.classList.add('active');
+        if (keySavedAlert) keySavedAlert.classList.remove('hidden');
+        showToast('Gemini API Key saved! Universal leaf detection is active.', 'success');
+        setTimeout(() => geminiModal.classList.add('hidden'), 1200);
+      } else {
+        showToast('Please paste a valid Gemini API key.', 'error');
+      }
+    });
+  }
+
+  if (clearKeyBtn) {
+    clearKeyBtn.addEventListener('click', () => {
+      localStorage.removeItem('gemini_api_key');
+      if (geminiApiKeyInput) geminiApiKeyInput.value = '';
+      if (geminiStatusDot) geminiStatusDot.classList.remove('active');
+      showToast('Gemini API Key removed.', 'warning');
+      geminiModal.classList.add('hidden');
+    });
+  }
+
+  // -------------------------------------------------------
   // 6. Analyze Button → API Call
   // -------------------------------------------------------
 
@@ -1884,8 +2261,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const formData = new FormData();
       formData.append('file', selectedFile);
 
+      const headers = {};
+      const storedKey = localStorage.getItem('gemini_api_key');
+      if (storedKey) {
+        headers['X-Gemini-Key'] = storedKey;
+      }
+
       const response = await fetch('/predict', {
         method: 'POST',
+        headers: headers,
         body: formData,
       });
 
@@ -1911,22 +2295,37 @@ document.addEventListener('DOMContentLoaded', () => {
   // -------------------------------------------------------
 
   function displayResults(data) {
-    const { predictions, disease_info, image_url, warning } = data;
+    const { predictions, disease_info, image_url, warning, engine, model_name } = data;
     const top = predictions[0];
+
+    // Engine badge update
+    const resultEngineBadge = document.getElementById('result-engine-badge');
+    if (resultEngineBadge) {
+      if (engine === 'gemini_vision') {
+        resultEngineBadge.textContent = `✨ ${model_name || 'Gemini Vision AI'} (Universal)`;
+        resultEngineBadge.className = 'engine-badge gemini';
+      } else {
+        resultEngineBadge.textContent = '⚡ Local Model (5 Crops)';
+        resultEngineBadge.className = 'engine-badge';
+      }
+    }
 
     // Set image
     resultImage.src = image_url;
     resultImage.alt = `Analyzed leaf: ${top.disease_name}`;
 
-    // Plant name
-    resultPlantName.textContent = `Plant: ${top.plant_name}`;
-
-    // Status badge
-    resultStatusBadge.textContent = top.is_healthy ? 'Healthy' : 'Diseased';
-    resultStatusBadge.className = `status-badge ${top.is_healthy ? 'healthy' : 'diseased'}`;
-
-    // Disease name
-    resultDiseaseName.textContent = top.disease_name;
+    // Plant name and status badge handling
+    if (engine === 'local_cnn' && (data.is_uncertain || conf < 50)) {
+      resultPlantName.textContent = `Plant: Untrained Leaf (e.g. Paddy / Rice / Wheat)`;
+      resultStatusBadge.textContent = 'Uncertain (कम सटीकता)';
+      resultStatusBadge.className = 'status-badge warning';
+      resultDiseaseName.textContent = `Nearest visual match: ${top.plant_name}`;
+    } else {
+      resultPlantName.textContent = `Plant: ${top.plant_name}`;
+      resultStatusBadge.textContent = top.is_healthy ? 'Healthy' : 'Diseased';
+      resultStatusBadge.className = `status-badge ${top.is_healthy ? 'healthy' : 'diseased'}`;
+      resultDiseaseName.textContent = top.disease_name;
+    }
 
     // Confidence bar (animate)
     const conf = top.confidence;
@@ -1987,7 +2386,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Show warning toast if confidence is low
+    // Show warning alert banner & toast if confidence is low
+    const lowConfAlert = document.getElementById('low-confidence-alert');
+    if (lowConfAlert) {
+      if (warning || conf < 60) {
+        const alertMsg = warning || `Low confidence (${conf.toFixed(1)}%). If this leaf is Paddy (Rice / धान), Wheat, or another unlisted crop, note that the model only knows 5 crops (Apple, Corn, Grape, Potato, Tomato). '${top.plant_name}' was selected only as the closest visual match.`;
+        lowConfAlert.innerHTML = `
+          <span class="alert-icon">⚠️</span>
+          <div>
+            <strong>Notice / ध्यान दें:</strong> ${alertMsg}
+            <div style="margin-top: 0.6rem;">
+              <button type="button" class="btn btn-sm btn-primary" onclick="document.getElementById('gemini-key-btn').click()" style="padding: 0.35rem 0.9rem; font-size: 0.8rem; border-radius: var(--radius-pill); cursor: pointer;">
+                ✨ Connect Free Gemini API Key for Exact Diagnosis
+              </button>
+            </div>
+          </div>
+        `;
+        lowConfAlert.classList.remove('hidden');
+      } else {
+        lowConfAlert.classList.add('hidden');
+      }
+    }
+
     if (warning) {
       showToast(warning, 'warning');
     }

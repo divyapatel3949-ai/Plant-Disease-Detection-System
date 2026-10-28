@@ -45,3 +45,14 @@ static/uploads/*
 # OS
 .DS_Store
 Thumbs.db
+
+# Secrets & Environment variables
+.env
+.env.local
+
+# Node & cache
+node_modules/
+.keras/
+extract_deploy.py
+deploy_vercel.py
+

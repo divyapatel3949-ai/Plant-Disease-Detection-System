@@ -14,6 +14,8 @@ Prerequisites:
 """
 
 import os
+os.environ.setdefault('KERAS_HOME', os.path.abspath('.keras'))
+os.environ.setdefault('TF_ENABLE_ONEDNN_OPTS', '0')
 import json
 import random
 import numpy as np
@@ -54,8 +56,8 @@ TRAINING_HISTORY_PATH = os.path.join('models', 'training_history.png')
 
 IMG_SIZE = (224, 224)
 BATCH_SIZE = 16
-EPOCHS_PHASE1 = 10          # Transfer learning (frozen base)
-EPOCHS_PHASE2 = 5           # Fine-tuning (top layers unfrozen)
+EPOCHS_PHASE1 = 7           # Transfer learning (frozen base)
+EPOCHS_PHASE2 = 3           # Fine-tuning (top layers unfrozen)
 LEARNING_RATE_PHASE1 = 1e-3
 LEARNING_RATE_PHASE2 = 1e-5
 VALIDATION_SPLIT = 0.10
@@ -319,18 +321,23 @@ def evaluate_model(model, test_ds, class_names):
 
     # Classification report
     if HAS_SKLEARN:
-        print("\n  Classification Report:")
-        print("-" * 70)
-        report = classification_report(
-            y_true, y_pred,
-            target_names=class_names,
-            digits=4,
-            zero_division=0
-        )
-        print(report)
+        try:
+            print("\n  Classification Report:")
+            print("-" * 70)
+            report = classification_report(
+                y_true, y_pred,
+                labels=list(range(len(class_names))),
+                target_names=class_names,
+                digits=4,
+                zero_division=0
+            )
+            print(report)
 
-        # Confusion matrix
-        cm = confusion_matrix(y_true, y_pred)
+            # Confusion matrix
+            cm = confusion_matrix(y_true, y_pred, labels=list(range(len(class_names))))
+            plot_confusion_matrix(cm, class_names)
+        except Exception as e:
+            print(f"  [NOTE] Skipping detailed report: {e}")
         if HAS_MATPLOTLIB:
             save_confusion_matrix(cm, class_names)
     else:
@@ -420,6 +427,18 @@ def save_model_and_classes(model, class_names):
     with open(CLASS_NAMES_PATH, 'w') as f:
         json.dump(class_names, f, indent=2)
     print(f"  Class names saved to: {CLASS_NAMES_PATH}")
+
+    # Export to TFLite for Vercel/serverless deployment
+    try:
+        print("  Converting model to TensorFlow Lite (.tflite)...")
+        tflite_path = os.path.join('models', 'plant_disease_model.tflite')
+        converter = tf.lite.TFLiteConverter.from_keras_model(model)
+        tflite_model = converter.convert()
+        with open(tflite_path, 'wb') as f:
+            f.write(tflite_model)
+        print(f"  TFLite model saved to: {tflite_path} ({len(tflite_model) / 1024 / 1024:.2f} MB)")
+    except Exception as e:
+        print(f"  [WARNING] Could not export TFLite model: {e}")
 
 
 def main():

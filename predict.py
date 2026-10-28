@@ -6,6 +6,8 @@ Used by app.py for inference — never trains the model.
 """
 
 import os
+os.environ.setdefault('KERAS_HOME', os.path.abspath('.keras'))
+os.environ.setdefault('TF_ENABLE_ONEDNN_OPTS', '0')
 import json
 import numpy as np
 from typing import Optional, Union
@@ -474,6 +476,81 @@ DISEASE_INFO = {
             'Ensure good air circulation between plants.',
             'Avoid excessive nitrogen fertilization.',
             'Water at the base of plants, not on foliage.'
+        ]
+    },
+    'Rice___Brown_spot': {
+        'description': 'Rice Brown Spot (धान का भूरा धब्बा रोग) is caused by Bipolaris oryzae. It produces circular to oval brown spots with gray or whitish centers and yellow halos on leaves, severely reducing grain yield and quality.',
+        'prevention': [
+            'Treat seeds with carbendazim or thiram before sowing (बीजोपचार करें).',
+            'Ensure balanced fertilization; avoid potassium and nitrogen deficiency (संतुलित खाद और पोटाश का प्रयोग करें).',
+            'Apply propiconazole (Tilt 25 EC) or hexaconazole at recommended doses when symptoms appear.',
+            'Maintain proper field drainage and avoid water stagnation.',
+            'Use certified disease-resistant paddy varieties.'
+        ]
+    },
+    'Rice___Blast': {
+        'description': 'Rice Blast (धान का झुलसा/ब्लास्ट रोग) is caused by the fungus Magnaporthe oryzae. It forms spindle-shaped or diamond-shaped lesions with gray-white centers and brownish margins on leaves and panicles.',
+        'prevention': [
+            'Avoid excessive nitrogen fertilizer application (अधिक यूरिया का प्रयोग न करें).',
+            'Spray Tricyclazole 75 WP (0.6 g/L) or Isoprothiolane at early symptom onset.',
+            'Destroy crop residue and infected stubble after harvest.',
+            'Maintain continuous shallow water submergence in paddy fields.',
+            'Plant blast-tolerant rice cultivars.'
+        ]
+    },
+    'Rice___Bacterial_leaf_blight': {
+        'description': 'Bacterial Leaf Blight of Rice (जीवाणु झुलसा रोग) is caused by Xanthomonas oryzae pv. oryzae. It produces water-soaked, yellowish-wavy stripes along leaf margins progressing from tip downwards.',
+        'prevention': [
+            'Avoid clipping rice seedling tips during transplanting.',
+            'Apply balanced NPK with increased potash (potassium helps resist bacterial attack).',
+            'Spray Copper oxychloride + Streptocycline (copper bactericide combination) upon disease notice.',
+            'Drain excess water from affected fields for 3-4 days.',
+            'Use resistant rice hybrids.'
+        ]
+    },
+    'Rice___healthy': {
+        'description': 'The Paddy / Rice plant (धान) appears vigorous, vibrant green, and healthy with no visible fungal lesions, bacterial streaks, or insect damage.',
+        'prevention': [
+            'Maintain optimal water levels during tillering and flowering stages.',
+            'Apply balanced fertilization (NPK) according to soil test recommendations.',
+            'Inspect crops weekly for stem borers, leaf folders, and leafhoppers.',
+            'Keep bunds and field borders clean from weed hosts.'
+        ]
+    },
+    'Wheat___Yellow_rust': {
+        'description': 'Yellow / Stripe Rust of Wheat (गेहूँ का पीला रतुआ) is caused by Puccinia striiformis. It produces prominent yellow-orange powdery pustules arranged in parallel stripes on leaf blades.',
+        'prevention': [
+            'Plant rust-resistant wheat varieties (HD-2967, PBW-550, etc.).',
+            'Spray Propiconazole (Tilt 25 EC) @ 1 ml/litre immediately on first appearance.',
+            'Avoid late sowing of wheat.',
+            'Monitor fields regularly during cool, humid winter mornings.'
+        ]
+    },
+    'Wheat___Brown_rust': {
+        'description': 'Brown / Leaf Rust of Wheat (भूरा रतुआ) is caused by Puccinia triticina. It produces round, reddish-brown pustules scattered irregularly across leaf surfaces.',
+        'prevention': [
+            'Cultivate recommended resistant wheat genotypes.',
+            'Foliar spray of Tebuconazole or Propiconazole @ 0.1%.',
+            'Practice balanced nutrition and avoid excessive nitrogenous fertilizers.',
+            'Ensure timely weeding and field aeration.'
+        ]
+    },
+    'Cotton___Bacterial_blight': {
+        'description': 'Bacterial Blight of Cotton (कपास का जीवाणु रोग / कोणीय धब्बा) causes angular water-soaked leaf spots, black arm on stems, and boll rot caused by Xanthomonas citri pv. malvacearum.',
+        'prevention': [
+            'Delint seed with concentrated sulphuric acid or treat with streptocycline before sowing.',
+            'Spray copper oxychloride (50 WP) mixed with streptocycline sulphate.',
+            'Destroy infected crop debris after picking.',
+            'Avoid overhead sprinkler irrigation.'
+        ]
+    },
+    'Mango___Anthracnose': {
+        'description': 'Mango Anthracnose (आम का एन्थ्रेक्नोज़ रोग) is caused by Colletotrichum gloeosporioides. It produces dark brown-black sunken spots on leaves, twigs, flower panicles, and developing fruit.',
+        'prevention': [
+            'Prune dead wood and dense foliage to allow sunlight penetration.',
+            'Spray Carbendazim or Copper Oxychloride prior to flowering and during fruit set.',
+            'Collect and destroy fallen diseased leaves and fruits.',
+            'Treat harvested fruits with hot water dip (52°C for 5 minutes).'
         ]
     },
 }
